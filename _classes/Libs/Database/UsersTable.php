@@ -30,7 +30,7 @@ class UsersTable {
             SELECT users.*,roles.name AS role, roles.value
             FROM users LEFT JOIN roles ON users.role_id = roles.id
         ";
-        $statement = $this->db->prepare($query);
+        $statement = $this->db->query($query);
         return $statement->fetchAll();
     }
 
@@ -58,5 +58,41 @@ class UsersTable {
         ]);
         $row=$statement->fetch();
         return $row ?? false;
+    }
+
+    public function suspend($id) {
+        $query= "
+            UPDATE users SET suspended=1 WHERE id=:id 
+        ";
+        $statement = $this->db->prepare($query);
+        $statement->execute([':id'=> $id]);
+        return $statement->rowCount();
+    }
+
+    public function unsuspend($id) {
+        $query= "
+            UPDATE users SET suspended=0 WHERE id=:id 
+        ";
+        $statement = $this->db->prepare($query);
+        $statement->execute([':id'=> $id]);
+        return $statement->rowCount();
+    }
+
+    public function changeRole($id, $role) {
+        $query= "
+            UPDATE users SET role_id=:role WHERE id=:id
+        ";
+        $statement = $this->db->prepare($query);
+        $statement->execute([':id'=>$id, ':role'=>$role]);
+        return $statement->rowCount();
+    }
+
+    public function delete($id) {
+        $query="
+            DELETE FROM users WHERE id=:id
+        ";
+        $statement = $this->db->prepare($query);
+        $statement->execute([':id'=>$id]);
+        return $statement->rowCount();
     }
 }

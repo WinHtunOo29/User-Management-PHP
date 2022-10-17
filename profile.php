@@ -1,6 +1,7 @@
 <?php
 
     include('vendor/autoload.php');
+
     use Helpers\Auth;
 
     $auth = Auth::check();
@@ -17,7 +18,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="mt-5 mb-5">
-            <?- $auth->name ?>
+            <?= $auth->name ?>
             <span class="fw-normal text-muted">
                 (<?= $auth->role ?>)
             </span>

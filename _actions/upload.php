@@ -21,7 +21,7 @@ if($error) {
 
 if($type === 'image/jpeg' or $type === 'image/png') {
     $table->updatePhoto($auth->id, $name);
-    move_uploaded_file($tmp, 'photos/$name');
+    move_uploaded_file($tmp, "photos/$name");
     $auth->photo = $name;
     HTTP::redirect('/profile.php');
 } else {
